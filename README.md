@@ -1,1 +1,1 @@
-ML Pipeline with the Basic Components to understand the MLOps Structure
+ML pipeline with the basic components to understand the MLOps structure
