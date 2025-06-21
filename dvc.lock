@@ -1,7 +1,7 @@
 schema: '2.0'
 stages:
   data_ingestion:
-    cmd: python src/data_ingestion.py
+    cmd: python3 src/data_ingestion.py
     deps:
     - path: src/data_ingestion.py
       hash: md5
@@ -17,7 +17,7 @@ stages:
       size: 479272
       nfiles: 2
   data_preprocessing:
-    cmd: python src/data_preprocessing.py
+    cmd: python3 src/data_preprocessing.py
     deps:
     - path: data/raw
       hash: md5
@@ -35,7 +35,7 @@ stages:
       size: 254818
       nfiles: 2
   feature_engineering:
-    cmd: python src/feature_engineering.py
+    cmd: python3 src/feature_engineering.py
     deps:
     - path: data/interim
       hash: md5
@@ -48,20 +48,20 @@ stages:
       size: 3799
     params:
       params.yaml:
-        feature_engineering.max_features: 35
+        feature_engineering.max_features: 45
     outs:
     - path: data/processed
       hash: md5
-      md5: 6f393d613e1ef6777f08947b3ebd8e7e.dir
-      size: 829484
+      md5: 6a52336d5aa9d60c84ab464fc706ae38.dir
+      size: 1059752
       nfiles: 2
   model_building:
-    cmd: python src/model_building.py
+    cmd: python3 src/model_building.py
     deps:
     - path: data/processed
       hash: md5
-      md5: 6f393d613e1ef6777f08947b3ebd8e7e.dir
-      size: 829484
+      md5: 6a52336d5aa9d60c84ab464fc706ae38.dir
+      size: 1059752
       nfiles: 2
     - path: src/model_building.py
       hash: md5
@@ -74,5 +74,21 @@ stages:
     outs:
     - path: models/model.pkl
       hash: md5
-      md5: 6387b404bde4a59cd096403cf4b47169
-      size: 720181
+      md5: 46236c5213832b8a9a928b3b3a932c0a
+      size: 820199
+  model_evaluation:
+    cmd: python3 src/model_evaluation.py
+    deps:
+    - path: models/model.pkl
+      hash: md5
+      md5: 46236c5213832b8a9a928b3b3a932c0a
+      size: 820199
+    - path: src/model_evaluation.py
+      hash: md5
+      md5: efb1de9838f57b0e50862992a47805df
+      size: 4502
+    outs:
+    - path: reports/metrics.json
+      hash: md5
+      md5: 716f60dee2b9da30fedf7908a551a9ae
+      size: 126
